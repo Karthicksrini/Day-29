@@ -1,0 +1,28 @@
+.container{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    width:27rem;
+    background-color: turquoise;
+    padding:10px;
+    margin:20px;
+    border-radius: 10px;
+    justify-items: end;
+}
+
+.main_contain{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.page_top{
+    display: grid;
+    width:40rem;
+    padding:20px;
+    margin:20px;
+}
+
+.img_user{
+    width:150px;
+    height:150px;
+    border-radius: 50%;
+}
