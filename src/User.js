@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import {useEffect, useState } from "react";
 import axios from "axios"
 function User(){
     let def_user={
@@ -8,23 +8,35 @@ function User(){
             email:"",
             image:""
     }
+    let[mount,setMount]=useState(false);
     let[details,setdetails]=useState(def_user);
 
     let [user, setUser]=useState([]);
 
-    // renders the information of the users
+
     useEffect(()=>{
-      const fetchData=async()=>{
-        const result= await axios.get(`https://61aa28bfbfb110001773f0f4.mockapi.io/user`)
-        setUser(result.data);
-        console.log(user);
+        try{
+        const fetchData=async()=>{
+            if(!mount){
+                setMount(true);
+                const result= await axios.get(`https://61aa28bfbfb110001773f0f4.mockapi.io/user`)
+                setUser(result.data);
+                console.log(user);
+            }
         }
         fetchData();
-    },[])
-
+       }catch(err){
+         console.log("Error while rendering the user",err);
+        }
+      
+    },[mount,user])
+    
+    
+    
 
     //Update the User
     const patchUser=async(event,id)=>{
+        try{
         event.preventDefault();
         await axios.put(`https://61aa28bfbfb110001773f0f4.mockapi.io/user/${id}`,{
             name:details.name,
@@ -38,12 +50,16 @@ function User(){
        setdetails({...temp});
        const divElement= document.getElementById(id);
        divElement.scrollIntoView({behavior:"smooth"});
+    }catch(err){
+        console.log("Error while updating the user",err);
+       }
     
     }
      
     
     //adds the new User
     const addUser=async(event)=>{
+        try{
         event.preventDefault();
         await axios.post(`https://61aa28bfbfb110001773f0f4.mockapi.io/user`,{
             name:details.name,
@@ -57,7 +73,9 @@ function User(){
        setdetails({...temp})
        const divElement= document.getElementById("bottom");
        divElement.scrollIntoView({behavior:"smooth"});
-
+    }catch(err){
+        console.log("Error while adding the user",err);
+       }
 
     }
 
@@ -65,9 +83,13 @@ function User(){
     
     //Deletes the selected user
     const Deleteuser=async(id)=>{
+        try{
       await axios.delete(`https://61aa28bfbfb110001773f0f4.mockapi.io/user/${id}`);
       let response= await axios.get(`https://61aa28bfbfb110001773f0f4.mockapi.io/user`);
       setUser(response.data);
+    }catch(err){
+        console.log("Error while Deleting the user",err);
+       }
     }
     
     //lists the information of the selected user
